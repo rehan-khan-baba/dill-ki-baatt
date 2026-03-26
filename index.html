@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For Alisha 🌙</title>
+  <style>
+    body {
+      margin:0; overflow:hidden; font-family:Arial,sans-serif; color:white; text-align:center;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #a18cd1 100%);
+    }
+
+    #bgZoom {
+      position:fixed; top:0; left:0; width:100%; height:100%; z-index:-3;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #a18cd1 100%);
+      animation: zoom 20s infinite alternate;
+    }
+    @keyframes zoom {0%{transform:scale(1);}100%{transform:scale(1.05);}}
+
+    #text {
+      position:absolute; top:40%; width:100%; font-size:26px; padding:20px; opacity:0;
+      transition:opacity 1.5s; text-shadow:0 0 10px rgba(255,255,255,0.8),0 0 20px rgba(255,255,255,0.6);
+    }
+    #text::after {content:'|'; animation:blink 0.7s infinite;}
+    @keyframes blink{0%,50%{opacity:1;}50.01%,100%{opacity:0;}}
+
+    button{
+      padding:12px 20px;font-size:18px;background:white;color:black;border:none;border-radius:20px;
+      cursor:pointer;position:absolute;bottom:50px;left:50%;transform:translateX(-50%);display:none;
+    }
+
+    .star {
+      position:absolute;background:white;border-radius:50%;animation:twinkle 2s infinite alternate;
+    }
+    @keyframes twinkle {from{opacity:0.2;}to{opacity:1;}}
+
+    .heart {
+      position:absolute;width:15px;height:15px;background:red;clip-path:polygon(50% 0%,61% 10%,70% 25%,50% 50%,30% 25%,39% 10%);
+      opacity:0.8; animation:heartFloat linear infinite;
+    }
+    @keyframes heartFloat {0%{transform:translateY(0);}100%{transform:translateY(-100vh) rotate(360deg);}}
+
+    .confetti{
+      position:absolute;width:10px;height:10px;opacity:0.8;transform:rotate(0deg);animation:confettiFall linear forwards;
+    }
+    @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(100vh) rotate(360deg);}}
+  </style>
+</head>
+<body>
+<div id="bgZoom"></div>
+<div id="text"></div>
+<button onclick="finalMsg()">Ek last cheez 💫</button>
+
+<audio id="music" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" type="audio/mp3">
+</audio>
+
+<script>
+// Heartfelt lines
+const lines=[
+  "Hey Alisha 🌙",
+  "Aapse baat karna hamesha accha lagta hai...",
+  "Aapki hasi se mera din better ho jata hai 😄",
+  "Shayad ye thoda ajeeb lage, par main ye feel karta hoon...",
+  "Aap mere liye important ho, aur har chhoti cheez aapse yaad aati hai",
+  "Mujhe lagta hai main aapko zyada pasand karne laga hoon",
+  "Aur main bas itna poochna chahta hoon...",
+  "Kya aap meri life ka ek important hissa banengi? 💖"
+];
+
+let i=0,j=0;
+const speed=[50,50,60,50,40,60,50,50];
+function typeEffect(){
+  if(i<lines.length){
+    let text=document.getElementById("text");
+    text.style.opacity=1;
+    text.innerHTML=lines[i].substring(0,j);
+    j++;
+    if(j>lines[i].length){i++;j=0;setTimeout(typeEffect,1200);} 
+    else {setTimeout(typeEffect,speed[i]||50);}
+  } else {document.querySelector("button").style.display="block";}
+}
+typeEffect();
+
+// Stars background + name glow
+let stars=[];
+for(let k=0;k<120;k++){
+  let star=document.createElement("div");star.className="star";
+  let size=Math.random()*3+1;star.style.width=size+"px";star.style.height=size+"px";
+  star.style.top=Math.random()*100+"vh"; star.style.left=Math.random()*100+"vw";
+  if(Math.random()<0.2){star.innerHTML="<span style='color:#ff9ff3;font-weight:bold;font-size:10px;'>Alisha</span>";}
+  document.body.appendChild(star); stars.push(star);
+}
+
+// Floating hearts
+let hearts=[];
+for(let h=0;h<15;h++){
+  let heart=document.createElement("div");heart.className="heart";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=(Math.random()*5+5)+"s";
+  document.body.appendChild(heart); hearts.push(heart);
+}
+
+// Confetti
+function createConfetti(){
+  for(let i=0;i<80;i++){
+    let conf=document.createElement("div");conf.className="confetti";
+    conf.style.background=['#ff5f5f','#f5e65f','#5fff9e','#5f9eff'][Math.floor(Math.random()*4)];
+    conf.style.left=Math.random()*100+"vw";
+    conf.style.width=(Math.random()*8+5)+"px";conf.style.height=conf.style.width;
+    conf.style.animationDuration=(Math.random()*3+2)+"s";
+    document.body.appendChild(conf);
+  }
+}
+
+// Final message + confetti
+function finalMsg(){
+  document.getElementById("text").innerHTML=
+  "Alisha… kya aap meri zindagi ka sabse khoobsurat hissa banengi? 💖";
+  createConfetti();
+}
+
+// Music autoplay on first click
+document.body.addEventListener("click",()=>{document.getElementById("music").play();});
+
+// ⭐ Interactive stars follow mouse
+document.body.addEventListener("mousemove",(e)=>{
+  stars.forEach(star=>{
+    let rect=star.getBoundingClientRect();
+    let dx=(e.clientX - rect.left)/100;
+    let dy=(e.clientY - rect.top)/100;
+    star.style.transform=`translate(${dx}px,${dy}px)`;
+  });
+
+  hearts.forEach(heart=>{
+    let rect=heart.getBoundingClientRect();
+    let dx=(e.clientX - rect.left)/200;
+    let dy=(e.clientY - rect.top)/200;
+    heart.style.transform=`translate(${dx}px,${dy}px)`;
+  });
+});
+</script>
+</body>
+</html>
